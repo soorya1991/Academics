@@ -1,0 +1,20 @@
+
+--drop table movie2009;
+--drop table movie2010;
+--drop table movie2011;
+
+CREATE TABLE movie2009(movieid string,moviename string,genre string);
+CREATE TABLE movie2010(movieid string,moviename string,genre string);
+CREATE TABLE movie2011(movieid string,moviename string,genre string);
+
+--Query
+FROM movie_partition
+INSERT OVERWRITE TABLE movie2009
+SELECT movieid,moviename,genre
+WHERE year =  2009
+INSERT OVERWRITE TABLE movie2010
+SELECT movieid,moviename,genre
+WHERE year =  2010
+INSERT OVERWRITE TABLE movie2011
+SELECT movieid,moviename,genre
+WHERE year =  2011;

@@ -1,0 +1,18 @@
+cqlsh:sxm120032> CREATE TABLE moviees(Movie_id varchar PRIMARY KEY,Title varchar,Genre varchar);
+cqlsh:sxm120032> COPY moviees FROM '/tmp/Fall2014_HW-3_Hive/movies_new.dat' WITH delimiter='#';
+3883 rows imported in 3.375 seconds.
+cqlsh:sxm120032> INSERT INTO movies1 (Movie_Id, Title, Genre) VALUES ('1162', 'New Comedy Movie', 'Comedy');
+Bad Request: unconfigured columnfamily movies1
+cqlsh:sxm120032> INSERT INTO moviees (Movie_Id, Title, Genre) VALUES ('1162', 'New Comedy Movie', 'Comedy');
+cqlsh:sxm120032> SELECT  * FROM movies1 WHERE Movie_Id='1150';
+Bad Request: unconfigured columnfamily movies1
+cqlsh:sxm120032> SELECT  * FROM moviees WHERE Movie_Id='1150';
+
+ movie_id | genre                                                             | title
+----------+-------------------------------------------------------------------+-------
+     1150 | Return of Martin Guerre, The (Retour de Martin Guerre, Le) (1982) | Drama
+
+(1 rows)
+
+cqlsh:sxm120032> Truncate moviees;
+cqlsh:sxm120032> DROP TABLE moviees;

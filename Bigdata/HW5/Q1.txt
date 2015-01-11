@@ -1,0 +1,9 @@
+MASTER=spark://soorya-PC:7077 ./bin/pyspark
+print "Enter input code"
+input = raw_input()
+file = sc.textFile("hdfs://127.0.0.1:9000/input/users.dat")
+filtered_data = file.filter(lambda line: input in line)
+list_data = filtered_data.collect()
+for data in list_data:
+	line = data.split('::')
+	print line[0]

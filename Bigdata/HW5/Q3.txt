@@ -1,0 +1,56 @@
+MASTER=spark://soorya-PC:7077 ./bin/pyspark
+ratings_file = sc.textFile("hdfs://127.0.0.1:9000/input/ratings.dat")
+
+movies_file = sc.textFile("hdfs://127.0.0.1:9000/input/movies.dat")
+
+items_file = sc.textFile("hdfs://127.0.0.1:9000/input/item_similarity")
+
+ratings_data = ratings_file.collect()
+
+movies_data = movies_file.collect()
+
+items_data = items_file.collect()
+
+input_userid = '1'
+
+users_movie = []
+
+for line in ratings_data:
+	line = line.split('::')
+	if line[0] == input_userid and line[2] == '4':
+		users_movie.append(line[1])
+
+ratings_4 = []
+
+movies = {}
+
+for line in items_data:
+	line = line.split('\t')
+	if line[0] in users_movie:
+		movies_4 = line[1].split(',')
+		movies[line[0]] = []
+		for mov in movies_4:
+			movie = mov.split(':')
+			movies[line[0]].append(movie[0])
+
+movie_name = {}
+
+for line in movies_data:
+	line = line.split('::')
+	movie_name[line[0]] = line[1]
+
+for mov,movs in movies.iteritems():
+	print movie_name[mov],"\t\t",
+	length = len(movs) - 1
+	for m in movs:
+		if not m == movs[length]:
+			print movie_name[m],",",
+		else:
+			print movie_name[m]
+
+			
+
+
+
+			
+

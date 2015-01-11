@@ -1,0 +1,15 @@
+--drop table movie_partition;
+CREATE TABLE movie_partition(movieid string, moviename string, genre string)
+PARTITIONED BY (year INT) 
+ROW FORMAT DELIMITED FIELDS 
+TERMINATED BY '#' LINES;
+
+LOAD DATA LOCAL INPATH '/tmp/HW_3_Data/partition/2010' 
+OVERWRITE INTO TABLE movie_partition PARTITION (year = 2010);
+LOAD DATA LOCAL INPATH '/tmp/HW_3_Data/partition/2009' 
+OVERWRITE INTO TABLE movie_partition PARTITION (year = 2009);
+LOAD DATA LOCAL INPATH '/tmp/HW_3_Data/partition/2011' 
+OVERWRITE INTO TABLE movie_partition PARTITION (year = 2011);
+
+--Query
+SELECT * FROM movie_partition WHERE year = 2009;

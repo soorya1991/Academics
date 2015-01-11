@@ -1,0 +1,11 @@
+--drop table users;
+CREATE TABLE users (userid string, gender string, age int, occupation string,zipcode string) 
+ ROW FORMAT DELIMITED FIELDS 
+ TERMINATED BY '#';
+
+LOAD DATA LOCAL INPATH 'users_new.dat' INTO TABLE users;
+
+SELECT m.movieid,m.moviename,m.genre FROM movies m 
+JOIN (SELECT /*+MAPJOIN(u) */ r.movieid,avg(r.rating) AS ratingdetails FROM users u 
+JOIN ratings r ON u.userid = r.userid AND u.gender ='M' GROUP BY r.movieid 
+HAVING (ratingdetails>=4.4 AND ratingdetails<=4.9))k ON m.movieid = k.movieid WHERE m.genre LIKE '%Action%' or m.genre LIKE '%Drama%';

@@ -1,0 +1,48 @@
+cqlsh:sxm120032> CREATE COLUMNFAMILY movie (
+             ...  Movie_id varchar PRIMARY KEY,
+             ... Title varchar,
+             ... Genre varchar
+             ... );
+cqlsh:sxm120032> INSERT INTO movie(Movie_id,Title,Genre) VALUES('70','From Dusk Till Dawn(1996)','Action|comedy|horro|Thriller');
+cqlsh:sxm120032>  INSERT INTO movie(Movie_id,Title,Genre) VALUES('83','Once upon a time we were colored(1995)','Drama');
+cqlsh:sxm120032> INSERT INTO movie(Movie_id,Title,Genre) VALUES('112','Escape From New York(1981)','Action|Adventure|Sci-fi|Thriller') USING TTL 300;
+cqlsh:sxm120032> SELECT * FROM movie where Movie_id='70';
+
+ movie_id | genre                        | title
+----------+------------------------------+---------------------------
+       70 | Action|comedy|horro|Thriller | From Dusk Till Dawn(1996)
+
+(1 rows)
+
+cqlsh:sxm120032> DELETE Genre FROM movie where Movie_id='83';
+cqlsh:sxm120032> DROP COLUMNFAMILY movie;
+cqlsh:sxm120032>  DESCRIBE KEYSPACE sxm120032;
+
+CREATE KEYSPACE sxm120032 WITH replication = {
+  'class': 'SimpleStrategy',
+  'replication_factor': '1'
+};
+
+USE sxm120032;
+
+CREATE TABLE movie (
+  Movie_id text,
+  genre text,
+  title text,
+  PRIMARY KEY (movie_id)
+) WITH
+  bloom_filter_fp_chance=0.010000 AND
+  caching='KEYS_ONLY' AND
+  comment='' AND
+  dclocal_read_repair_chance=0.000000 AND
+  gc_grace_seconds=864000 AND
+  index_interval=128 AND
+  read_repair_chance=0.100000 AND
+  replicate_on_write='true' AND
+  populate_io_cache_on_flush='false' AND
+  default_time_to_live=0 AND
+  speculative_retry='99.0PERCENTILE' AND
+  memtable_flush_period_in_ms=0 AND
+  compaction={'class': 'SizeTieredCompactionStrategy'} AND
+  compression={'sstable_compression': 'LZ4Compressor'};
+

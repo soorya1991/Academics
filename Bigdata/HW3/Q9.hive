@@ -1,0 +1,3 @@
+add jar Hive_Format.jar;
+create temporary function hiveformat as 'Hive_Format';
+select movieid,moviename,hiveformat(genre) from movies;

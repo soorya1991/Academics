@@ -1,0 +1,30 @@
+MASTER=spark://soorya-PC:7077 ./bin/pyspark
+import operator
+movie_id = {}
+count = {}
+file = sc.textFile("hdfs://127.0.0.1:9000/input/ratings.dat")
+ratings_data = file.collect()
+for data in ratings_data:
+	line = data.split('::')
+	if not count.has_key(line[1]):
+		count[line[1]] = 1
+	else:
+	        count[line[1]] = count[line[1]] + 1
+	if not movie_id.has_key(line[1]):
+                movie_id[line[1]] = float(line[2])
+        else:
+                old_val = movie_id[line[1]]
+                new_val = old_val + float(line[2])
+                movie_id[line[1]] = new_val
+
+for key,value in movie_id.iteritems():
+	num = count[key]
+	movie_id[key] = value/num
+
+sorted_x = sorted(movie_id.items(), key=operator.itemgetter(1), reverse=True)
+
+count = 0
+for k,v in sorted_x:
+	if count < 10:
+                print k,v
+        count+=1

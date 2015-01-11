@@ -1,0 +1,18 @@
+--drop table ratings;
+--drop table movies;
+
+CREATE TABLE ratings (userid string,movieid string,rating float,ratingts timestamp)
+ ROW FORMAT DELIMITED 
+ FIELDS TERMINATED BY '#';
+CREATE TABLE movies (movieid string, moviename string, genre string) 
+ ROW FORMAT DELIMITED 
+ FIELDS TERMINATED BY '#';
+LOAD DATA LOCAL INPATH 'movies_new.dat' INTO TABLE movies;
+LOAD DATA LOCAL INPATH 'ratings_new.dat' INTO TABLE ratings;
+
+SELECT r.movieid, avg(r.rating) as ratingdetails
+FROM (SELECT movieid from movies where genre like '%Action%') m JOIN ratings r
+WHERE r.movieid = m.movieid
+GROUP BY r.movieid 
+SORT BY ratingdetails DESC LIMIT 12;
+
