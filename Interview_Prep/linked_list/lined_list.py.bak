@@ -1,0 +1,72 @@
+#!/usr/bin/python
+
+"""
+Linked list implementation
+Functions:
+    insert
+    delete value by position
+    print linked list
+    reverse a linked list
+
+"""
+class link_listnode:
+    def __init__(self):
+        self.data = None
+        self.next = None
+
+class linked_list:
+    def __init__(self):
+        self.head = None
+    
+    def insert(self,data):
+        new_node = link_listnode()
+        new_node.data = data
+        if not self.head:
+            self.head = new_node
+        else:
+            curr = self.head
+            while curr.next:
+                curr = curr.next
+            curr.next = new_node
+
+    def delete_pos(self,index):
+        if index == 1:
+            self.head = self.head.next
+        else:
+            curr = self.head
+            i=1
+            while i < index-1:
+                curr = curr.next
+                i+=1
+            curr.next = curr.next.next
+
+    def reverse_linked_list(self):
+        prev = None
+        curr = self.head
+        while curr:
+            temp = curr.next
+            curr.next = prev
+            prev=curr
+            curr = temp
+        self.head = prev
+        
+
+    def print_linked_list(self):
+        curr = self.head
+        while curr:
+            print curr.data,
+            curr = curr.next
+        print "\n"
+
+linked_list_obj = linked_list()
+for i in range(1,10):
+    linked_list_obj.insert(i)
+
+linked_list_obj.print_linked_list()
+linked_list_obj.delete_pos(9)
+linked_list_obj.print_linked_list()
+linked_list_obj.reverse_linked_list()
+linked_list_obj.print_linked_list()
+linked_list_obj.delete_pos(3)
+linked_list_obj.print_linked_list()
+

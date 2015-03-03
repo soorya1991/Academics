@@ -1,0 +1,30 @@
+#!/usr/bin/python
+
+
+
+def decimal_to_binary(input):
+    result = []
+    while input > 0:
+        result.append(str(input%2))
+        input/=2
+    return ''.join(reversed(result))
+
+def binary_to_decimal(input):
+    sum = 0
+    i = 0
+    while input:
+        if input%10 == 1:
+            sum = sum + pow(2,i)
+        input = input/10
+        i+=1
+    return sum
+
+print "1.decimal to binary"
+print "2.binary to decimal"
+print "Enter the value for the conversion"
+input = int(raw_input())
+print "Enter the Option"
+option = int(raw_input())
+options = {1:decimal_to_binary,2:binary_to_decimal}
+result = options.get(option)(input)
+print result

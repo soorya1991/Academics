@@ -1,0 +1,22 @@
+#!/usr/bin/python
+
+
+"""
+Implementation of finding majorithy element using Moore voting algorithm
+"""
+a=['a','a','a','b','b','c','c','c','b','b','b','c']
+
+count = 0
+maj = None
+
+for i in range(len(a)-1):
+    if count == 0:
+        maj = i
+        count+=1
+    else:
+        if a[maj] == a[i]:
+            count+=1
+        else:
+            count-=1
+
+print a[maj]

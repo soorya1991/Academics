@@ -1,0 +1,13 @@
+#!/usr/bin/python
+
+
+a = [1, 2, 4, 6, 3, 7, 8]
+#using formula n*(n+1)/2
+actual_sum = 8*9/2
+present_sum = 0
+
+for i in a:
+    present_sum+=i
+
+missing_num = actual_sum  - present_sum
+print missing_num
